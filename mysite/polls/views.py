@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from polls.models import Pizza
 from polls.models import Ingredient
 from polls.forms import PizzaForm
+from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -38,6 +39,20 @@ def set8Pizzas(request):
     pizza.save() 
 
     return HttpResponse("8 pizas han sido creadas")
+
+@csrf_exempt
+def AllPizzas(request):
+    pizzas = Pizza.objects.all()
+
+    json_data = serializers.serialize('json', pizzas)
+    return HttpResponse( json_data )
+
+@csrf_exempt
+def AllPizzas(request):
+    ingredientes = Ingredient.objects.all()
+
+    json_data = serializers.serialize('json', ingredientes)
+    return HttpResponse( json_data )
 
 @csrf_exempt
 def setIngredients(request):
@@ -86,4 +101,5 @@ def setIngredients(request):
     ingrediente = Ingredient (name = 'Cebollas', price = 3)
     ingrediente.save()
 
-    return HttpResponse("8 pizas han sido creadas")
+    return HttpResponse("Ingredientes han sido creados")
+
